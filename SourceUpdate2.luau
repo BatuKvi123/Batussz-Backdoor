@@ -213,7 +213,7 @@ function Create()
         if Settings.Universal == true then
             exec(code)
         elseif Settings.Universal == false then
-            if k == lclKey or k == _G._ then
+            if k == lclKey then
                 exec(code)
                 return
             else
