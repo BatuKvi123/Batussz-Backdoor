@@ -20,7 +20,7 @@ What ts backdoor got???:
 
 --DEBUGGING VARIABLES
 ----------------
-local dbg = true
+local dbg = false
 ----------------
 -- Variables
 local lclKey = ""
