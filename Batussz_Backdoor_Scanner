@@ -1,0 +1,58 @@
+-- Backdoor scanner by batussz
+-- this is the worst scanner fr
+local g = game
+local logCount = 0
+
+local STS = {
+    g.Workspace,
+    g.Lighting,
+    g.ReplicatedStorage
+}
+
+local function notif(txt)
+		game.StarterGui:SetCore("SendNotification", {
+				Title = "Batussz Scanner",
+				Text = txt,
+				Duration = 5
+		})
+end
+
+local pyldname = "BatuSSZ" .. math.random(1, 99999)
+
+local payload = [[
+    local part = Instance.new("IntValue", workspace)
+    part.Name = "]] .. pyldname .. [["
+]]
+
+local found = false
+
+local function search()
+for _, service in pairs(STS) do
+    for _, object in pairs(service:GetDescendants()) do
+        if object.Parent and object.Parent:IsA("Folder") and object.Parent.Name == "DefaultChatSystemChatEvents" then
+            
+        else
+        if object:IsA("RemoteEvent") then
+            local success, err = pcall(function()
+                object:FireServer(payload)
+            end)
+            wait(.5)
+            if workspace:FindFirstChild(pyldname) then
+                workspace[pyldname]:Destroy()
+               notif("found remoteevent\n"..object:GetFullName())
+                found = true
+                return object
+            end
+        end
+        end
+    end
+    if found then break end
+end
+end
+
+--[[
+local obj = search()
+if obj then
+obj:FireServer("print('Hello World!')")
+end
+]]
